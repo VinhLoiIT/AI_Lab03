@@ -1,6 +1,7 @@
 import pandas as pd
+import numpy as np
 import arff
-
+import math
 
 class NaiveBayes:
 
@@ -14,41 +15,45 @@ class NaiveBayes:
         rows = data['data']
 
         self.df = pd.DataFrame(rows, columns=attributes.keys())
-        self.target = self.df[target_name]
-        self.target_unique_values = pd.unique(self.target)
 
-    def count_table(self):
+        for feature_name in self.df.drop(columns='animal_name'):
+            self.df[feature_name] = self.df[feature_name].astype(np.int8)
 
-        result = {}
+        self.target_name = target_name
+        self.target_column = self.df[target_name]
+        self.target_unique_values = pd.unique(self.target_column)
 
-        for feature_name in self.df.drop(columns='type'):
-            frame = self.df[[feature_name, 'type']]
+    def get_prior_probability_distribution(self):
+        prior_prob_dist = {}
+        for feature_name in self.df:
+            description = self.df[feature_name].value_counts()
+            total = description.sum()
+            description = description.apply(lambda x: x / total)
+            prior_prob_dist[feature_name] = description
+        return prior_prob_dist
 
-            rows = pd.Index(pd.unique(frame[feature_name]), name="rows")
-            columns = pd.Index(pd.unique(frame['type']), name="columns")
-            table = pd.DataFrame(data=None, index=rows, columns=columns)
+    def calc_bernoulli_prob(self, x, prob_dist):
+        return math.pow(prob_dist[x], x) * math.pow(1 - prob_dist[x], 1 - x)
 
-            for feature_unique_value in pd.unique(frame[feature_name]):
-                for target_unique_value in pd.unique(frame['type']):
-                    filtered = frame[
-                        (frame[feature_name] == feature_unique_value) & (frame['type'] == target_unique_value)]
-                    count = len(filtered.index)
-                    table.at[feature_unique_value, target_unique_value] = count
+    def predict(self, test_set: pd.DataFrame):
+        assert isinstance(test_set, pd.DataFrame)
 
-            result[feature_name] = table
-        return result
+        prior_prob_dist = self.get_prior_probability_distribution()
 
-    def prob_table(self):
-        count_table_all = self.count_table()
-
-        for feature_name in count_table_all.keys():
-            count_table = count_table_all[feature_name]
-            # for target_value in count_table:
-            #     count_table.iloc[:, target_value].apply(lambda x: x / x.sum())
-            prob_table = count_table.apply(lambda x: x / x.sum(), axis=1)
-            count_table_all[feature_name] = prob_table
-
-        return count_table_all
-
-    def predict(self, features):
-        pass
+        for index, row in test_set.drop(columns=['animal_name', 'type']).iterrows():
+            row = row.astype(np.int8)
+            likelihood = []
+            for target_unique_value in self.target_unique_values:
+                target_unique_value = int(target_unique_value)
+                prob_target = prior_prob_dist[self.target_name][target_unique_value]
+                for feature_name in self.df.drop(columns=['animal_name', 'type']):
+                    prob = self.calc_bernoulli_prob(row[feature_name], prior_prob_dist[feature_name])
+                    prob_target = prob_target * prob
+                likelihood.append(prob_target)
+            # print("Prob: ", likelihood)
+            # print("Predict target {} has max prob is {}".format(
+            #     self.target_unique_values[likelihood.index(max(likelihood))],
+            #     max(likelihood)
+            # ))
+            test_set.at[index, 'type'] = self.target_unique_values[likelihood.index(max(likelihood))]
+        return test_set

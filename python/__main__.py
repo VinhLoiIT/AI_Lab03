@@ -1,4 +1,5 @@
 import random
+import naive_bayes as nb
 import numpy as np
 import pandas as pd
 
@@ -16,10 +17,27 @@ def split_dataset(dataset: list, ratio):
 
     return train_data, test_data
 
-predictor = NaiveBayes('../Zoo.arff', 'type')
-table = predictor.prob_table()
-for feature_name in table.keys():
-    print(table[feature_name])
+def classify():
+    classifier = nb.NaiveBayes('../Zoo.arff', 'type')
+
+    columns = pd.Index(['animal_name', 'hair', 'feathers', 'eggs', 'milk', 'airborne', 'aquatic', 'predator', 'toothed',
+              'backbone', 'breathes', 'venomous', 'fins', 'legs', 'tail', 'domestic', 'catsize', 'type'])
+    rows = [
+        ['NameIsSecret', 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 4, 1, 0, 1, np.nan],
+        ['NameIsSecret', 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 2, 1, 1, 0, np.nan],
+        ['NameIsSecret', 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, np.nan],
+        ['NameIsSecret', 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, np.nan],
+        ['NameIsSecret', 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 1, 0, 0, np.nan]
+    ]
+
+    df_test = pd.DataFrame(rows, columns=columns)
+    # print(df_test.head())
+    result = classifier.predict(df_test)
+    print(result)
+
+if __name__ == '__main__':
+    classify()
+
 
 
 
