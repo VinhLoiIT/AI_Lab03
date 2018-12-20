@@ -2,6 +2,7 @@ import random
 import naive_bayes as nb
 import numpy as np
 import pandas as pd
+import arff
 
 
 def split_dataset(dataset: list, ratio):
@@ -17,27 +18,29 @@ def split_dataset(dataset: list, ratio):
 
     return train_data, test_data
 
+def parse_arff_file(arff_file_path):
+    data_file = open(arff_file_path, 'r')
+    data = arff.load(data_file)
+
+    attributes = {}
+    for attribute in data['attributes']:
+        attributes[attribute[0]] = attribute[1]
+    rows = data['data']
+
+    df = pd.DataFrame(rows, columns=attributes.keys())
+
+    for feature_name in df.drop(columns=['animal_name', 'type']):
+        df[feature_name] = df[feature_name].astype(np.int8)
+    return df
+
 def classify():
-    classifier = nb.NaiveBayes('../Zoo.arff', 'type')
+    dataset = parse_arff_file('../Zoo.arff')
+    testset = parse_arff_file('../Zoo_test.arff')
 
-    columns = pd.Index(['animal_name', 'hair', 'feathers', 'eggs', 'milk', 'airborne', 'aquatic', 'predator', 'toothed',
-              'backbone', 'breathes', 'venomous', 'fins', 'legs', 'tail', 'domestic', 'catsize', 'type'])
-    rows = [
-        ['NameIsSecret', 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 4, 1, 0, 1, np.nan],
-        ['NameIsSecret', 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 2, 1, 1, 0, np.nan],
-        ['NameIsSecret', 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, np.nan],
-        ['NameIsSecret', 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, np.nan],
-        ['NameIsSecret', 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 4, 1, 0, 0, np.nan]
-    ]
-
-    df_test = pd.DataFrame(rows, columns=columns)
-    # print(df_test.head())
-    result = classifier.predict(df_test)
+    classifier = nb.NaiveBayes(dataset)
+    result = classifier.predict(testset)
     print(result)
+
 
 if __name__ == '__main__':
     classify()
-
-
-
-
