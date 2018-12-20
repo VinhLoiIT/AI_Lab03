@@ -1,4 +1,4 @@
-@relation zoo
+@relation Zoo
 
 @attribute animal_name string
 @attribute hair {0,1}
@@ -17,7 +17,7 @@
 @attribute tail {0,1}
 @attribute domestic {0,1}
 @attribute catsize {0,1}
-@attribute type {Mammals, Birds, Reptilia, Fish, Amphibians, Insects, Invertebrate}
+@attribute type {Mammals, Birds, Reptile, Fish, Amphibians, Insects, Invertebrate}
 
 @data
 aardvark,1,0,0,1,0,0,1,1,1,1,0,0,4,0,0,1,Mammals
@@ -82,7 +82,7 @@ penguin,0,1,1,0,0,1,1,0,1,1,0,0,2,1,0,1,Birds
 pheasant,0,1,1,0,1,0,0,0,1,1,0,0,2,1,0,0,Birds
 pike,0,0,1,0,0,1,1,1,1,0,0,1,0,1,0,1,Fish
 piranha,0,0,1,0,0,1,1,1,1,0,0,1,0,1,0,0,Fish
-pitviper,0,0,1,0,0,0,1,1,1,1,1,0,0,1,0,0,Reptilia
+pitviper,0,0,1,0,0,0,1,1,1,1,1,0,0,1,0,0,Reptile
 platypus,1,0,1,1,0,1,1,0,1,1,0,0,4,1,0,1,Mammals
 polecat,1,0,0,1,0,0,1,1,1,1,0,0,4,1,0,1,Mammals
 pony,1,0,0,1,0,0,0,1,1,1,0,0,4,1,1,1,Mammals
@@ -96,11 +96,11 @@ scorpion,0,0,0,0,0,0,1,0,0,1,1,0,8,1,0,0,Invertebrate
 seahorse,0,0,1,0,0,1,0,1,1,0,0,1,0,1,0,0,Fish
 seal,1,0,0,1,0,1,1,1,1,1,0,1,0,0,0,1,Mammals
 sealion,1,0,0,1,0,1,1,1,1,1,0,1,2,1,0,1,Mammals
-seasnake,0,0,0,0,0,1,1,1,1,0,1,0,0,1,0,0,Reptilia
+seasnake,0,0,0,0,0,1,1,1,1,0,1,0,0,1,0,0,Reptile
 seawasp,0,0,1,0,0,1,1,0,0,0,1,0,0,0,0,0,Invertebrate
 skimmer,0,1,1,0,1,1,1,0,1,1,0,0,2,1,0,0,Birds
 skua,0,1,1,0,1,1,1,0,1,1,0,0,2,1,0,0,Birds
-slowworm,0,0,1,0,0,0,1,1,1,1,0,0,0,1,0,0,Reptilia
+slowworm,0,0,1,0,0,0,1,1,1,1,0,0,0,1,0,0,Reptile
 slug,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,Invertebrate
 sole,0,0,1,0,0,1,0,1,1,0,0,1,0,1,0,0,Fish
 sparrow,0,1,1,0,1,0,0,0,1,1,0,0,2,1,0,0,Birds
@@ -110,8 +110,8 @@ stingray,0,0,1,0,0,1,1,1,1,0,1,1,0,1,0,1,Fish
 swan,0,1,1,0,1,1,0,0,1,1,0,0,2,1,0,1,Birds
 termite,0,0,1,0,0,0,0,0,0,1,0,0,6,0,0,0,Insects
 toad,0,0,1,0,0,1,0,1,1,1,0,0,4,0,0,0,Amphibians
-tortoise,0,0,1,0,0,0,0,0,1,1,0,0,4,1,0,1,Reptilia
-tuatara,0,0,1,0,0,0,1,1,1,1,0,0,4,1,0,0,Reptilia
+tortoise,0,0,1,0,0,0,0,0,1,1,0,0,4,1,0,1,Reptile
+tuatara,0,0,1,0,0,0,1,1,1,1,0,0,4,1,0,0,Reptile
 tuna,0,0,1,0,0,1,1,1,1,0,0,1,0,1,0,1,Fish
 vampire,1,0,0,1,1,0,0,1,1,1,0,0,2,1,0,0,Mammals
 vole,1,0,0,1,0,0,0,1,1,1,0,0,4,1,0,0,Mammals

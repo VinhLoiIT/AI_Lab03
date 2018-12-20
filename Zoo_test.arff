@@ -16,7 +16,7 @@
 @attribute tail {0,1}
 @attribute domestic {0,1}
 @attribute catsize {0,1}
-@attribute type {Mammals, Birds, Reptilia, Fish, Amphibians, Insects, Invertebrate}
+@attribute type {Mammals, Birds, Reptile, Fish, Amphibians, Insects, Invertebrate}
 
 @data
 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 4, 1, 0, 1, ?
